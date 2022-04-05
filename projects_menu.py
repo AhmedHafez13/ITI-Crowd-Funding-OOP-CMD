@@ -1,5 +1,6 @@
 import uuid
-import storage_manager
+
+from storage_manager import StorageManager
 from utils.input_utils import InputUtils
 from utils.output_utils import OutputUtils
 from cmd_menu import CMDMenu
@@ -48,18 +49,18 @@ class ProjectsMenu(CMDMenu):
             "end_data": InputUtils.get_date_input("Enter end data")
         }
 
-        storage_manager.store_project(project_data)
+        StorageManager.store_project(project_data)
 
         OutputUtils.print_header("Successfully created")
         self.show()
 
     def view_all(self):
-        projects = storage_manager.get_all_projects()
+        projects = StorageManager.get_all_projects()
         OutputUtils.print_projects(projects)
         self.show()
 
     def edit(self):
-        projects = storage_manager.get_all_projects()
+        projects = StorageManager.get_all_projects()
 
         own_projects = list(filter(
             lambda project: project["user_id"] == self.user_data["id"],
@@ -88,7 +89,7 @@ class ProjectsMenu(CMDMenu):
                 f"Enter a new end data, current end data: {target_project['end_data']}"
             )
 
-            storage_manager.update_projects(projects)
+            StorageManager.update_projects(projects)
 
             OutputUtils.print_header("Successfully updated!")
             self.show()
@@ -96,7 +97,7 @@ class ProjectsMenu(CMDMenu):
             OutputUtils.print_header("Can't find any projects")
 
     def delete(self):
-        projects = storage_manager.get_all_projects()
+        projects = StorageManager.get_all_projects()
 
         own_projects = list(filter(
             lambda project: project["user_id"] == self.user_data["id"],
@@ -114,7 +115,7 @@ class ProjectsMenu(CMDMenu):
                 projects
             ))
 
-            storage_manager.update_projects(projects)
+            StorageManager.update_projects(projects)
 
             OutputUtils.print_header("Successfully deleted!")
             self.show()

@@ -1,7 +1,7 @@
 import uuid
-import storage_manager
 from cmd_menu import CMDMenu
 from projects_menu import ProjectsMenu
+from storage_manager import StorageManager
 from utils.input_utils import InputUtils
 from utils.output_utils import OutputUtils
 
@@ -36,18 +36,18 @@ class AuthMenu(CMDMenu):
         while InputUtils.get_mixed_input("Confirm password") != user_data["password"]:
             print("Password confirmation doesn't match password")
 
-        storage_manager.store_user(user_data)
+        StorageManager.store_user(user_data)
 
         OutputUtils.print_header("Successfully registered, you can login now")
         self.show()
 
     def login(self):
         email = InputUtils.get_email_input("Enter your email")
-        user_data = storage_manager.get_user(email)
+        user_data = StorageManager.get_user(email)
         while not user_data:
             print("This username doesn't exist")
             email = InputUtils.get_email_input("Enter your email")
-            user_data = storage_manager.get_user(email)
+            user_data = StorageManager.get_user(email)
 
         while InputUtils.get_mixed_input("Enter your password") != user_data["password"]:
             print("Password is wrong, try again!")
