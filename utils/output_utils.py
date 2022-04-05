@@ -9,7 +9,7 @@ class OutputUtils:
     def print_menu(menu_options, header_message):
         OutputUtils.print_header(header_message)
         for key, list_item in menu_options.items():
-            print(f"{key}: {list_item}")
+            print(f"{key}: {list_item['title']}")
 
     @staticmethod
     def print_projects(projects):

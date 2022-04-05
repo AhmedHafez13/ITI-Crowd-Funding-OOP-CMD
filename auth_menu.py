@@ -1,31 +1,26 @@
 import uuid
 import storage_manager
+from cmd_menu import CMDMenu
 from projects_menu import ProjectsMenu
 from utils.input_utils import InputUtils
 from utils.output_utils import OutputUtils
 
 
-class AuthMenu:
+class AuthMenu(CMDMenu):
     def __init__(self):
         self.menu = {
-            "1": "Register",
-            "2": "Login"
+            "title": "Auth Menu",
+            "options": {
+                "1": {
+                    "title": "Register",
+                    "handler": self.register
+                },
+                "2": {
+                    "title": "Login",
+                    "handler": self.login
+                }
+            }
         }
-
-    def show(self):
-        OutputUtils.print_menu(self.menu, "Auth Menu")
-        option = InputUtils.get_numeric_input("Choose an option")
-
-        while option not in self.menu.keys():
-            print("Choose a valid option")
-            option = InputUtils.get_numeric_input("Choose an option")
-
-        if option == "1":
-            self.register()
-        elif option == "2":
-            user = self.login()
-            project_menu = ProjectsMenu(user)
-            project_menu.show()
 
     def register(self):
         OutputUtils.print_header("Register new user")
@@ -57,4 +52,5 @@ class AuthMenu:
         while InputUtils.get_mixed_input("Enter your password") != user_data["password"]:
             print("Password is wrong, try again!")
 
-        return user_data
+        project_menu = ProjectsMenu(user_data)
+        project_menu.show()
